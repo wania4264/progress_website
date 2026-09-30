@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>One More Rep</title>
+<meta name="description" content="A reps journal. Log tiny daily reps on everything you want to get better at, park racing thoughts, and look back on a 30-day season that ends in a video.">
+<meta name="theme-color" content="#cdebea" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#131419" media="(prefers-color-scheme: dark)">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Reps">
+<link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Roboto+Mono:wght@400;500;600;700&family=Sora:wght@600;700;800&display=swap">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="brandbar">
+  <div class="brandbar-in">
+    <a class="brand" href="#today" data-a="tab" data-view="today"><span class="mark" aria-hidden="true">+1</span><span>one more rep</span></a>
+    <button type="button" class="btn black sm" data-a="go-bench">start a rep</button>
+  </div>
+</header>
+
+<nav class="tabbar" aria-label="Sections">
+  <div class="tabbar-in">
+    <div class="tabs" role="tablist">
+      <button type="button" class="tab" role="tab" data-a="tab" data-view="today" aria-selected="true">Today</button>
+      <button type="button" class="tab" role="tab" data-a="tab" data-view="dump" aria-selected="false"><span class="t-lg">Brain dump</span><span class="t-sm">Dump</span></button>
+      <button type="button" class="tab" role="tab" data-a="tab" data-view="back" aria-selected="false">Look back</button>
+      <button type="button" class="tab" role="tab" data-a="tab" data-view="scheme" aria-selected="false"><span class="t-lg">Grand scheme</span><span class="t-sm">Scheme</span></button>
+    </div>
+    <button type="button" class="pill" id="pill" data-a="go-bench" hidden></button>
+  </div>
+</nav>
+
+<main>
+  <!-- TODAY -->
+  <section id="v-today" class="view" aria-label="Today">
+    <div class="band"><div class="band-in" id="t-hero"></div></div>
+    <div class="col">
+      <section id="t-min"></section>
+      <section id="t-head"></section>
+      <section class="bench" id="bench" aria-label="Rep bench"></section>
+      <details class="log" id="log">
+        <summary>Did something already? Log it without the timer</summary>
+        <div class="log-body">
+          <div><span class="label">Which machine</span><div class="chips" id="log-chips"></div></div>
+          <div class="f-row">
+            <div><label class="label" for="log-mins">Minutes</label><input id="log-mins" class="field num" type="number" min="1" max="600" inputmode="numeric" placeholder="20"></div>
+            <div><label class="label" for="log-when">When</label><select id="log-when" class="field"><option value="today">today</option><option value="yesterday">yesterday</option></select></div>
+            <div><span class="label">How heavy</span><div class="seg" id="log-effort"></div></div>
+          </div>
+          <div><label class="label" for="log-note">What did you do?</label><input id="log-note" class="field" maxlength="280" placeholder="one line, ugly is fine" autocomplete="off"></div>
+          <div class="row"><button type="button" class="btn black" data-a="log-save">Save rep</button></div>
+        </div>
+      </details>
+      <section id="t-reps"></section>
+      <section class="line-box">
+        <label class="label" for="t-line">One line for today</label>
+        <input id="t-line" class="field" maxlength="300" placeholder="how today went, in one line" autocomplete="off">
+        <p class="small muted">One line is enough. Your reps write the rest of the diary for you.</p>
+      </section>
+    </div>
+  </section>
+
+  <!-- BRAIN DUMP -->
+  <section id="v-dump" class="view" aria-label="Brain dump" hidden>
+    <div class="band"><div class="band-in" id="d-hero"></div></div>
+    <div class="col">
+      <section class="dump-box">
+        <div>
+          <label class="label" for="dump-text">What’s looping?</label>
+          <textarea id="dump-text" class="field" rows="3" maxlength="500" placeholder="One thought at a time. Enter parks it. Shift+Enter for a new line."></textarea>
+        </div>
+        <div><span class="label">This is</span><div class="seg" id="dump-kind"></div></div>
+        <div id="dump-about"><span class="label">About (optional)</span><div class="chips" id="dump-tracks"></div></div>
+        <div class="row"><button type="button" class="btn black" data-a="park-go">Park it</button><span class="small muted">Parking isn’t promising. It just gets it out of your head.</span></div>
+      </section>
+      <section id="d-parked"></section>
+      <section id="d-noise"></section>
+      <section id="d-done"></section>
+    </div>
+  </section>
+
+  <!-- LOOK BACK -->
+  <section id="v-back" class="view" aria-label="Look back" hidden>
+    <div class="band"><div class="band-in" id="b-hero"></div></div>
+    <div class="col">
+      <section class="chart-wrap" id="b-chart"></section>
+      <section id="b-strip"></section>
+      <section id="b-day"></section>
+    </div>
+  </section>
+
+  <!-- GRAND SCHEME -->
+  <section id="v-scheme" class="view" aria-label="Grand scheme" hidden>
+    <div class="band"><div class="band-in" id="s-hero"></div></div>
+    <div class="col">
+      <section id="s-season"></section>
+      <section class="goal-box">
+        <label class="label" for="s-goal">The big thing all of this feeds</label>
+        <input id="s-goal" class="field" maxlength="160" placeholder="e.g. earning in dollars from my laptop" autocomplete="off">
+      </section>
+      <section>
+        <div class="sec-head"><h2>Machines</h2><p class="small muted">Every level puts another plate on the bar.</p></div>
+        <div class="machines" id="s-machines"></div>
+        <div class="add-row">
+          <label class="label" for="s-add-name" hidden>New machine</label>
+          <input id="s-add-name" class="field" maxlength="40" placeholder="add a machine, e.g. Figma, Blender, writing" autocomplete="off">
+          <button type="button" class="btn black" data-a="add-track">Add</button>
+        </div>
+      </section>
+      <section class="video" id="s-video"></section>
+      <section>
+        <h2>How the game works</h2>
+        <ul class="rules">
+          <li><b>Rep</b><span>Any honest attempt at something on your list. Five minutes counts. Ugly counts. Staring at it and starting counts.</span></li>
+          <li><b>Minimum</b><span>Two reps a day, like learning the bike: twice a day, sirens or not. Missing one day is allowed. Don’t miss twice.</span></li>
+          <li><b>One more</b><span>When a set ends and you want to stop, that’s the moment. Press +1 for five more minutes.</span></li>
+          <li><b>XP</b><span>1 per minute, +10 for every rep, +5 for every one-more. Levels put plates on that machine’s bar.</span></li>
+          <li><b>Season</b><span>30 days from your first rep. Each week adds one rule. Day 30 is film day, and your outline is already written.</span></li>
+          <li><b>No reset</b><span>There’s no button to wipe a bad week. Zero days stay visible, and so does everything you did after them.</span></li>
+        </ul>
+      </section>
+      <section class="data-box" id="s-data"></section>
+    </div>
+  </section>
+</main>
+
+<footer class="foot"><div class="foot-in" id="foot"></div></footer>
+
+<nav class="pager" id="pager" aria-label="Move between days" hidden>
+  <div class="pager-in">
+    <button type="button" class="pg" id="pg-prev" data-a="prev">&larr; back</button>
+    <button type="button" class="pg" id="pg-next" data-a="next">next &rarr;</button>
+  </div>
+</nav>
+
+<div id="siren" class="overlay" hidden>
+  <div class="backdrop" data-a="siren-close"></div>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="z-h" tabindex="-1">
+    <span class="label">Sirens mode</span>
+    <h2 id="z-h">Sirens are allowed. You still ride.</h2>
+    <p>Nobody is asking if you feel ready. Pick one machine and do the smallest thing on it for five minutes. When it rings you can stop, and it still counts as a rep.</p>
+    <div><span class="label">One machine</span><div class="chips" id="z-tracks"></div></div>
+    <div><span class="label">The smallest thing</span><div class="tiny" id="z-tiny"></div></div>
+    <div class="row"><button type="button" class="btn black big" data-a="siren-start">Start 5 minutes</button><button type="button" class="btn" data-a="siren-close">Not now</button></div>
+    <p class="small">If the sirens are the scary kind, message someone you trust right now. That counts as today’s rep too.</p>
+  </div>
+</div>
+
+<input type="file" id="import-file" accept="application/json,.json" hidden>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<div class="tip" id="tip" hidden></div>
+
+<script src="app.js"></script>
+</body>
+</html>
